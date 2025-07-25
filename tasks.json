@@ -1,12 +1,7 @@
 [
  {
   "id": 1,
-  "title": "sample task",
-  "done": true
- },
- {
-  "id": 2,
-  "title": "\"sample 2\"",
+  "title": "no.2",
   "done": true
  }
 ]

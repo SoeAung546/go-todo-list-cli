@@ -46,6 +46,21 @@ func addTask(title string) {
 	saveTasks()
 	fmt.Println("Added Task: ", title)
 }
+
+func resetTasks() {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Are you sure you want to delete all tasks? (y/N): ")
+	input, _ := reader.ReadString('\n')
+	input = strings.TrimSpace(strings.ToLower(input))
+	if input == "y" || input == "yes" {
+		tasks = []Task{}
+		saveTasks()
+		fmt.Println("All tasks have been deleted and reset the list.")
+	} else {
+		fmt.Println("Reset cancelled.")
+	}
+}
+
 func main() {
 
 	loadTasks()
@@ -62,7 +77,7 @@ func main() {
 			break
 		}
 		if input == "help" {
-			fmt.Println("Commands: \nadd <title>	(add new task) \nlist 		(list all tasks) \ndone <id> 	(change the task status) \ndelete <id> 	(delete the task) \nexit")
+			fmt.Println("Commands: \nadd <title>	(add new task) \nlist 		(list all tasks) \ndone <id> 	(change the task status) \ndelete <id> 	(delete the task) \nreset 		(clear the list) \nexit")
 			continue
 		}
 		args := strings.Fields(input)
@@ -92,6 +107,9 @@ func main() {
 				}
 				fmt.Printf("%d. %s %s\n", task.ID, status, task.Title)
 			}
+		case "reset":
+			resetTasks()
+			continue
 		case "done":
 			if len(args) < 2 {
 				fmt.Println("Please provide the task ID to mark as done.")
@@ -124,9 +142,21 @@ func main() {
 			found := false
 			for i, task := range tasks {
 				if fmt.Sprintf("%d", task.ID) == id {
-					tasks = append(tasks[:i], tasks[i+1:]...)
-					saveTasks()
-					fmt.Printf("Deleted Task %s: %s\n", id, task.Title)
+					reader := bufio.NewReader(os.Stdin)
+					fmt.Printf("Are you sure you want to delete Task %s: %s? (y/n): ", id, task.Title)
+					input, _ := reader.ReadString('\n')
+					input = strings.TrimSpace(strings.ToLower(input))
+					if input == "y" || input == "yes" {
+						tasks = append(tasks[:i], tasks[i+1:]...)
+						// Reassign IDs to keep them unique and sequential
+						for j := range tasks {
+							tasks[j].ID = j + 1
+						}
+						saveTasks()
+						fmt.Printf("Deleted Task %s: %s\n", id, task.Title)
+					} else {
+						fmt.Println("Delete cancelled.")
+					}
 					found = true
 					break
 				}
