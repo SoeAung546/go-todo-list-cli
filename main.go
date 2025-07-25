@@ -49,7 +49,7 @@ func addTask(title string) {
 
 func resetTasks() {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Are you sure you want to delete all tasks? (y/N): ")
+	fmt.Print("Are you sure you want to delete all tasks? (y/n): ")
 	input, _ := reader.ReadString('\n')
 	input = strings.TrimSpace(strings.ToLower(input))
 	if input == "y" || input == "yes" {
@@ -77,7 +77,7 @@ func main() {
 			break
 		}
 		if input == "help" {
-			fmt.Println("Commands: \nadd <title>	(add new task) \nlist 		(list all tasks) \ndone <id> 	(change the task status) \ndelete <id> 	(delete the task) \nreset 		(clear the list) \nexit")
+			fmt.Println("Commands: \nadd <title>	(add new task) \nlist 		(list all tasks) \ndone <id> 	(mark as done) \nuncheck <id> 	(mark as not done) \ndelete <id> 	(delete the task) \nreset 		(clear the list) \nexit")
 			continue
 		}
 		args := strings.Fields(input)
@@ -125,6 +125,29 @@ func main() {
 						tasks[i].Done = true
 						saveTasks()
 						fmt.Printf("Marked Task %s as done: %s\n", id, task.Title)
+					}
+					found = true
+					break
+				}
+			}
+			if !found {
+				fmt.Println("Task ID not found:", id)
+			}
+		case "uncheck":
+			if len(args) < 2 {
+				fmt.Println("Please provide the task ID to uncheck")
+				continue
+			}
+			id := args[1]
+			found := false
+			for i, task := range tasks {
+				if fmt.Sprintf("%d", task.ID) == id {
+					if !task.Done {
+						fmt.Printf("Task %s is not marked as done.\n", id)
+					} else {
+						tasks[i].Done = false
+						saveTasks()
+						fmt.Printf("Change status of Task %s as not done: %s\n", id, task.Title)
 					}
 					found = true
 					break
