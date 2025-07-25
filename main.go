@@ -93,7 +93,28 @@ func main() {
 				fmt.Printf("%d. %s %s\n", task.ID, status, task.Title)
 			}
 		case "done":
-			// To be implemented
+			if len(args) < 2 {
+				fmt.Println("Please provide the task ID to mark as done.")
+				continue
+			}
+			id := args[1]
+			found := false
+			for i, task := range tasks {
+				if fmt.Sprintf("%d", task.ID) == id {
+					if task.Done {
+						fmt.Printf("Task %s is already marked as done.\n", id)
+					} else {
+						tasks[i].Done = true
+						saveTasks()
+						fmt.Printf("Marked Task %s as done: %s\n", id, task.Title)
+					}
+					found = true
+					break
+				}
+			}
+			if !found {
+				fmt.Println("Task ID not found:", id)
+			}
 		case "delete":
 			if len(args) < 2 {
 				fmt.Println("Please provide the task ID to delete.")

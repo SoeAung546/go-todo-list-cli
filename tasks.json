@@ -2,16 +2,11 @@
  {
   "id": 1,
   "title": "sample task",
-  "done": false
+  "done": true
  },
  {
   "id": 2,
   "title": "\"sample 2\"",
-  "done": false
- },
- {
-  "id": 4,
-  "title": "asdfda",
-  "done": false
+  "done": true
  }
 ]
