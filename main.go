@@ -64,7 +64,16 @@ func resetTasks() {
 func main() {
 
 	loadTasks()
-	fmt.Println("Welcome to Todo CLI (type 'help' for commands, 'exit' to quit)")
+
+	fmt.Println("===================================================")
+	fmt.Println(` ___ _     __   _    _    _  __  ___    __  _    _ 
+|_ _/ \   |  \ / \  | |  | |/ _||_ _|  / _|| |  | |
+ | ( o )_ | o | o ) | |_ | |\_ \ | |  ( (_ | |_ | |
+ |_|\_/__||__/ \_/  |___||_||__/ |_|   \__||___||_|
+                                                   `)
+	fmt.Println("===================================================")
+
+	fmt.Println("Welcome to To-do List CLI (type 'help' for commands, 'exit' to quit)")
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("> ")
