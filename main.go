@@ -45,6 +45,8 @@ func addTask(title string) {
 	tasks = append(tasks, task)
 	saveTasks()
 	fmt.Println("Added Task: ", title)
+	fmt.Println("")
+
 }
 
 func resetTasks() {
@@ -56,8 +58,12 @@ func resetTasks() {
 		tasks = []Task{}
 		saveTasks()
 		fmt.Println("All tasks have been deleted and reset the list.")
+		fmt.Println("")
+
 	} else {
 		fmt.Println("Reset cancelled.")
+		fmt.Println("")
+
 	}
 }
 
@@ -87,6 +93,8 @@ func main() {
 		}
 		if input == "help" {
 			fmt.Println("Commands: \nadd <title>	(add new task) \nlist 		(list all tasks) \ndone <id> 	(mark as done) \nuncheck <id> 	(mark as not done) \ndelete <id> 	(delete the task) \nreset 		(clear the list) \nexit")
+			fmt.Println("")
+
 			continue
 		}
 		args := strings.Fields(input)
@@ -99,6 +107,7 @@ func main() {
 		case "add":
 			if len(args) < 2 {
 				fmt.Println("Please provide a task title.")
+				fmt.Println("")
 				continue
 			}
 			title := strings.Join(args[1:], " ")
@@ -106,6 +115,7 @@ func main() {
 		case "list":
 			if len(tasks) == 0 {
 				fmt.Println("No tasks found.")
+				fmt.Println("")
 				continue
 			}
 			fmt.Println("Task List:")
@@ -116,12 +126,16 @@ func main() {
 				}
 				fmt.Printf("%d. %s %s\n", task.ID, status, task.Title)
 			}
+			fmt.Println("")
+
 		case "reset":
 			resetTasks()
 			continue
 		case "done":
 			if len(args) < 2 {
 				fmt.Println("Please provide the task ID to mark as done.")
+				fmt.Println("")
+
 				continue
 			}
 			id := args[1]
@@ -130,10 +144,14 @@ func main() {
 				if fmt.Sprintf("%d", task.ID) == id {
 					if task.Done {
 						fmt.Printf("Task %s is already marked as done.\n", id)
+						fmt.Println("")
+
 					} else {
 						tasks[i].Done = true
 						saveTasks()
 						fmt.Printf("Marked Task %s as done: %s\n", id, task.Title)
+						fmt.Println("")
+
 					}
 					found = true
 					break
@@ -141,10 +159,14 @@ func main() {
 			}
 			if !found {
 				fmt.Println("Task ID not found:", id)
+				fmt.Println("")
+
 			}
 		case "uncheck":
 			if len(args) < 2 {
 				fmt.Println("Please provide the task ID to uncheck")
+				fmt.Println("")
+
 				continue
 			}
 			id := args[1]
@@ -153,10 +175,14 @@ func main() {
 				if fmt.Sprintf("%d", task.ID) == id {
 					if !task.Done {
 						fmt.Printf("Task %s is not marked as done.\n", id)
+						fmt.Println("")
+
 					} else {
 						tasks[i].Done = false
 						saveTasks()
 						fmt.Printf("Change status of Task %s as not done: %s\n", id, task.Title)
+						fmt.Println("")
+
 					}
 					found = true
 					break
@@ -164,10 +190,14 @@ func main() {
 			}
 			if !found {
 				fmt.Println("Task ID not found:", id)
+				fmt.Println("")
+
 			}
 		case "delete":
 			if len(args) < 2 {
 				fmt.Println("Please provide the task ID to delete.")
+				fmt.Println("")
+
 				continue
 			}
 			id := args[1]
@@ -186,8 +216,12 @@ func main() {
 						}
 						saveTasks()
 						fmt.Printf("Deleted Task %s: %s\n", id, task.Title)
+						fmt.Println("")
+
 					} else {
 						fmt.Println("Delete cancelled.")
+						fmt.Println("")
+
 					}
 					found = true
 					break
@@ -195,9 +229,13 @@ func main() {
 			}
 			if !found {
 				fmt.Println("Task ID not found:", id)
+				fmt.Println("")
+
 			}
 		default:
 			fmt.Println("Unknown command:", command)
+			fmt.Println("")
+
 		}
 	}
 
